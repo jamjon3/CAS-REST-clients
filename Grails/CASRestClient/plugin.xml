@@ -21,6 +21,7 @@ The properties are described as:
 
 Configuration
 -------------
+grails.config.locations = [ "file:CASRestClientConfig.groovy" ]
 
 At install, your `Config.groovy` will have the following appended to it:
 
