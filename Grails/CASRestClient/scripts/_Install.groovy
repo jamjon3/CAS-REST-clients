@@ -39,3 +39,4 @@ ant.copy(file: "${pluginBasedir}/src/samples/CASRestClientConfig.groovy",
 //}
 //
 //setDefaultTarget(main)
+// event("CompileEnd")
