@@ -21,16 +21,17 @@ The properties are described as:
 
 Configuration
 -------------
-grails.config.locations = [ "file:CASRestClientConfig.groovy" ]
 
-At install, your `Config.groovy` will have the following appended to it:
+By default, a `CASRestClientConfig.groovy` file is added to your configuration directory. 
 
-CASRestClient.cas.server = 'https://authtest.it.usf.edu'
-CASRestClient.cas.ticketsPath = '/v1/tickets'
-CASRestClient.cas.username = 'YourCASUserName'
-CASRestClient.cas.password = 'YourCASPassword'
+You can simply `add` this to your Config.groovy config locations with:
 
-You'll need to specify the correct credentials and CAS server info for your setup.
+grails.config.locations = [ "file:${basedir}/grails-app/conf/CASRestClientConfig.groovy" ]
+
+... or you can externalize this like any other config file
+
+You'll need to edit this configuration file with the correct CAS server URL, tickets path and valid credentials that can run your target services authenticated by CAS 
+and authorized by Spring Security or some other authorization method 
 
 Example
 -------
