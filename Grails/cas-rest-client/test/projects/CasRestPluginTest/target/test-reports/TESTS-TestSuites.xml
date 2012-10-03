@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="0" hostname="watson.it.usf.edu" id="0" name="CasRestClientControllerTests" package="edu.usf.cims" tests="1" time="0.74" timestamp="2012-10-03T13:23:40">
+      <properties />
+
+      <testcase classname="edu.usf.cims.CasRestClientControllerTests" name="testSomething" time="0.722" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+</testsuites>

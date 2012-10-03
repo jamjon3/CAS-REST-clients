@@ -1,0 +1,77 @@
+<plugin name='cas-rest-client' version='0.2' grailsVersion='2.1 &gt; *'>
+  <author>James Jones</author>
+  <authorEmail>james@mail.usf.edu</authorEmail>
+  <title>CAS Rest Client Plugin</title>
+  <description>The CAS Rest Client Plugin provides a mechanism to execute REST based services protected by CAS and CAS Spring Security.
+
+Usage
+-----
+
+The plugin will inject the following dynamic methods in both services and controllers:
+
+ * `withCasRest(String serviceUrl,String method = "GET",def query=[:])` - executes a service wrapped in CAS using the REST plugin
+ * `withCasSpringSecurityRest(String serviceUrl,String method = "GET",def query=[:],String springSecurityBaseUrl)` - executes a service wrapped in CAS Spring Security using the REST plugin
+ 
+The properties are described as:
+
+ * serviceUrl - The full URL used for the service
+ * method - The HTTP method to use (GET,PUT,DELETE,POST). The default is "GET"
+ * query - A hashmap of key/value pairs to be passed to the service
+ * springSecurityBaseUrl - The base URL of your app that is using Spring Security (not the full service URL, this is used to get the JSESSIONID for spring security)
+
+Configuration
+-------------
+
+By default, a `CasRestClientConfig.groovy` file is added to your configuration directory. 
+
+You can simply `add` this to your Config.groovy config locations with:
+
+grails.config.locations = [ "file:${basedir}/grails-app/conf/CasRestClientConfig.groovy" ]
+
+... or you can externalize this like any other config file
+
+You'll need to edit this configuration file with the correct CAS server URL, tickets path and valid credentials that can run your target services authenticated by CAS 
+and authorized by Spring Security or some other authorization method 
+
+Example
+-------
+
+def result = withCasRest("https://dev.it.usf.edu/nams/ws_convert","GET",[submit_type:"netid",return_type:"mail","return":"json",value:"james"])
+
+
+The result will be as a string: {"response":"success","netid":"james","mail":"james@usf.edu"}
+
+You will have to do any type conversion to JSON,XML,etc as the output is a raw string.class.
+
+</description>
+  <documentation>http://bullpen.jira.com/wiki</documentation>
+  <type>CasRestClientGrailsPlugin</type>
+  <resources>
+    <resource>edu.usf.CasRestClient.CasRestServiceCallService</resource>
+    <resource>edu.usf.CasRestClient.CasTicketRetrievalService</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://grails.org/plugins' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+    <repository name='http://snapshots.repository.codehaus.org' url='http://snapshots.repository.codehaus.org/' />
+    <repository name='http://repository.codehaus.org' url='http://repository.codehaus.org/' />
+    <repository name='http://download.java.net/maven/2/' url='http://download.java.net/maven/2/' />
+    <repository name='http://repository.jboss.com/maven2/' url='http://repository.jboss.com/maven2/' />
+    <repository name='Codehaus' url='http://repository.codehaus.org/' />
+  </repositories>
+  <dependencies>
+    <compile>
+      <dependency group='org.codehaus.groovy.modules.http-builder' name='http-builder' version='0.5.2' />
+    </compile>
+  </dependencies>
+  <plugins>
+    <compile>
+      <plugin group='org.grails.plugins' name='rest' version='0.7' />
+    </compile>
+  </plugins>
+  <runtimePluginRequirements>
+    <plugin name='rest' version='0.7 &gt; *' />
+  </runtimePluginRequirements>
+  <behavior />
+</plugin>

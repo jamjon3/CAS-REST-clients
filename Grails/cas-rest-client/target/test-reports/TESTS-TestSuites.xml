@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="1" hostname="watson.it.usf.edu" id="0" name="CasRestServiceCallServiceTests" package="edu.usf.CasRestClient" tests="1" time="0.145" timestamp="2012-10-03T13:08:02">
+      <properties />
+
+      <testcase classname="edu.usf.CasRestClient.CasRestServiceCallServiceTests" name="testSomething" time="0.066">
+          <failure message="junit.framework.AssertionFailedError: Implement me" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: junit.framework.AssertionFailedError: Implement me
+	at edu.usf.CasRestClient.CasRestServiceCallServiceTests.testSomething(CasRestServiceCallServiceTests.groovy:15)
+</failure>
+
+      </testcase>
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="1" hostname="watson.it.usf.edu" id="1" name="CasTicketRetrievalServiceTests" package="edu.usf.CasRestClient" tests="1" time="0.022" timestamp="2012-10-03T13:08:02">
+      <properties />
+
+      <testcase classname="edu.usf.CasRestClient.CasTicketRetrievalServiceTests" name="testSomething" time="0.021">
+          <failure message="junit.framework.AssertionFailedError: Implement me" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: junit.framework.AssertionFailedError: Implement me
+	at edu.usf.CasRestClient.CasTicketRetrievalServiceTests.testSomething(CasTicketRetrievalServiceTests.groovy:15)
+</failure>
+
+      </testcase>
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+</testsuites>
