@@ -5,7 +5,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class CasRestClientGrailsPlugin {
     // the plugin version
-    def version = "0.2"
+    def version = "0.3"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.1 > *"
     // the other plugins this plugin depends on
@@ -30,18 +30,24 @@ Usage
 
 The plugin will inject the following dynamic methods in both services and controllers:
 
- * `withCasRest(String serviceUrl,String method = "GET",def query=[:])` - executes a service wrapped in CAS using the REST plugin
- * `withCasSpringSecurityRest(String serviceUrl,String method = "GET",def query=[:],String springSecurityBaseUrl)` - executes a service wrapped in CAS Spring Security using the REST plugin
+ * `withCasRest(String serviceUrl,String method = "GET",String username,String password,def headers=[:],def query=[:])` - executes a service wrapped in CAS using the REST plugin
+ * `withCasSpringSecurityRest(String serviceUrl,String method = "GET",String username,String password,def headers=[:],def query=[:],String springSecurityBaseUrl)` - executes a service wrapped in CAS Spring Security using the REST plugin
  
 The properties are described as:
 
  * serviceUrl - The full URL used for the service
  * method - The HTTP method to use (GET,PUT,DELETE,POST). The default is "GET"
+ * username - The CAS username that can access this service
+ * password - The password associated with the CAS username
+ * headers - Any additional header you may need to pass. Apps like Grails use 'Accept' and 'Content' headers to control JSON/XML input and output so those may be needed.
  * query - A hashmap of key/value pairs to be passed to the service
  * springSecurityBaseUrl - The base URL of your app that is using Spring Security (not the full service URL, this is used to get the JSESSIONID for spring security)
 
 Configuration
 -------------
+
+No configuration required. The CAS server is determined on the 302 redirect if the protected service wants CAS credentials.
+
 
 By default, a `CasRestClientConfig.groovy` file is added to your configuration directory. 
 
@@ -51,13 +57,30 @@ grails.config.locations = [ "file:${basedir}/grails-app/conf/CasRestClientConfig
 
 ... or you can externalize this like any other config file
 
-You'll need to edit this configuration file with the correct CAS server URL, tickets path and valid credentials that can run your target services authenticated by CAS 
-and authorized by Spring Security or some other authorization method 
+Generally, this file doesn't require modification to get started. However, if you want to setup a custom key store or you have a custom ticket path you need to be using for CAS
+that is not the typical `/v1/tickets`, you can tweak it there. If you want to set a "global" default username & password, you can set that too (they get used when you send empty 
+username and passwords).
+
+The default options in the file looks like this:
+
+    /** SSL key & truststore configuration key */
+    rest.https.truststore.path = 'resources/certs/rest_client_keystore.jks'
+    rest.https.keystore.path='resources/certs/rest_client_keystore.jks'
+    /** Certificate Hostname Verifier configuration key */
+    rest.https.cert.hostnameVerifier = 'ALLOW_ALL'
+    /** Enforce SSL Socket Factory */
+    rest.https.sslSocketFactory.enforce = true
+    /** The CAS server tickets path **/
+    casRestClient.cas.ticketsPath = "/v1/tickets"         
+    /** Optional Global CAS username - rather than specifying it on each call **/ 
+    // casRestClient.cas.username = "mycasusername"        
+    /** Optional Global CAS password - rather than specifying it on each call **/ 
+    // casRestClient.cas.password = "mycaspassword"        
 
 Example
 -------
 
-def result = withCasRest("https://dev.it.usf.edu/nams/ws_convert","GET",[submit_type:"netid",return_type:"mail","return":"json",value:"james"])
+def result = withCasRest("https://dev.it.usf.edu/nams/ws_convert","GET","myCasUsername","myCasPassword",[:],[submit_type:"netid",return_type:"mail","return":"json",value:"james"])
 
 
 The result will be as a string: {"response":"success","netid":"james","mail":"james@usf.edu"}
@@ -100,19 +123,19 @@ You will have to do any type conversion to JSON,XML,etc as the output is a raw s
         def casRestServiceCallService = ctx.getBean('casRestServiceCallService')
 
         for (serviceClass in application.serviceClasses) {
-             serviceClass.metaClass.withCasRest = { String serviceUrl,String method = "GET",def query=[:] ->
-                return casRestServiceCallService.executeCasService(serviceUrl,method,query)
+             serviceClass.metaClass.withCasRest = { String serviceUrl,String method = "GET",String username,String password,def headers=[:],def query=[:] ->
+                return casRestServiceCallService.executeCasService(serviceUrl,method,username,password,headers,query)
              }
-             serviceClass.metaClass.withCasSpringSecurityRest = { String serviceUrl,String method = "GET",def query=[:],String springSecurityBaseUrl ->
-                return casRestServiceCallService.executeCasService(serviceUrl,method,query,springSecurityBaseUrl)
+             serviceClass.metaClass.withCasSpringSecurityRest = { String serviceUrl,String method = "GET",String username,String password,def headers=[:],def query=[:],String springSecurityBaseUrl ->
+                return casRestServiceCallService.executeCasService(serviceUrl,method,username,password,headers,query,springSecurityBaseUrl)
              }
         }        
         for (controllerClass in application.controllerClasses) {
-             controllerClass.metaClass.withCasRest = { String serviceUrl,String method = "GET",def query=[:] ->
-                return casRestServiceCallService.executeCasService(serviceUrl,method,query)
+             controllerClass.metaClass.withCasRest = { String serviceUrl,String method = "GET",String username,String password,def headers=[:],def query=[:] ->
+                return casRestServiceCallService.executeCasService(serviceUrl,method,username,password,headers,query)
              }
-             controllerClass.metaClass.withCasSpringSecurityRest = { String serviceUrl,String method = "GET",def query=[:],String springSecurityBaseUrl ->
-                return casRestServiceCallService.executeCasService(serviceUrl,method,query,springSecurityBaseUrl)
+             controllerClass.metaClass.withCasSpringSecurityRest = { String serviceUrl,String method = "GET",String username,String password,def headers=[:],def query=[:],String springSecurityBaseUrl ->
+                return casRestServiceCallService.executeCasService(serviceUrl,method,username,password,headers,query,springSecurityBaseUrl)
              }
         }   
     }
