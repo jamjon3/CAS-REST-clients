@@ -1,4 +1,4 @@
-<plugin name='cas-rest-client' version='0.3' grailsVersion='2.1 &gt; *'>
+<plugin name='cas-rest-client' version='0.3.1' grailsVersion='2.1 &gt; *'>
   <author>James Jones</author>
   <authorEmail>james@mail.usf.edu</authorEmail>
   <title>CAS Rest Client Plugin</title>
@@ -75,7 +75,6 @@ You will have to do any type conversion to JSON,XML,etc as the output is a raw s
   </resources>
   <repositories>
     <repository name='grailsCentral' url='http://grails.org/plugins' />
-    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
     <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
     <repository name='http://snapshots.repository.codehaus.org' url='http://snapshots.repository.codehaus.org/' />
     <repository name='http://repository.codehaus.org' url='http://repository.codehaus.org/' />

@@ -3,12 +3,12 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
 grails.project.dependency.resolution = {
-    // inherit Grails' default dependencies
-    inherits("global") {
-        // uncomment to disable ehcache
-        // excludes 'ehcache'
-    }
-    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+  inherits('global') {
+    excludes 'commons-codec' // Grails ships with 1.3, need 1.4
+  }
+  legacyResolve true
+  checksums true
+  log 'error'
     repositories {
         grailsCentral()
         mavenLocal()
@@ -29,10 +29,5 @@ grails.project.dependency.resolution = {
 
     plugins {
         compile(":rest:0.7")
-        build(":tomcat:$grailsVersion",
-              ":release:2.0.3",
-              ":rest-client-builder:1.0.2") {
-            export = false
-        }
     }
 }
