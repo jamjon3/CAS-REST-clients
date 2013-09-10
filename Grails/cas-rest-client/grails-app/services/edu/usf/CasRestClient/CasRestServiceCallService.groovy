@@ -4,6 +4,7 @@ import groovyx.net.http.*
 import grails.converters.*
 
 class CasRestServiceCallService {
+    static transactional = false
 
     def casTicketRetrievalService
 

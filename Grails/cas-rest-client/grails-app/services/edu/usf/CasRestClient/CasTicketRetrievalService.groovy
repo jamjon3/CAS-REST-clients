@@ -6,6 +6,7 @@ import java.util.regex.Pattern
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
 class CasTicketRetrievalService {
+    static transactional = false
     def grailsApplication
     
     String getServiceTicket(String serviceUrl,String casServerUrl,String username="",String password="") {
