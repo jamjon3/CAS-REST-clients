@@ -51,9 +51,9 @@ class CasTicketRetrievalService {
                         log.warn "Response (1k): ${(tgtcontent.size() < 1024)?tgtcontent:tgtcontent[0..1024]}"                        
                         break
                     default:
-                        log.warn "Invalid response code (${resp.statusLine.statusCode}) from CAS server!"
+                        log.warn "Invalid response code (${tgtresp.statusLine.statusCode}) from CAS server!"
                         log.warn "Response (1k): ${(tgtcontent.size() < 1024)?tgtcontent:tgtcontent[0..1024]}"
-                        log.warn "Status Message: ${resp.statusLine}"                    
+                        log.warn "Status Message: ${tgtresp.statusLine}"                    
                         break
                 }
                 return null
