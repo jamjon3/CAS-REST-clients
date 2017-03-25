@@ -1,0 +1,22 @@
+---
+- hosts: all
+  tasks:
+    - name:
+      find:
+        paths: "../"
+        patterns: "grails-cas-rest-client-*.zip"
+      register: plugins
+      tags:
+        - build 
+    - name: Build Grails cas-rest-client
+      shell: "{{ item }}"
+      become: no
+      args:
+        chdir: "../"
+      with_items:
+        - "grails package-plugin"
+        - "grails install-plugin {{ plugins.files[0].path }}"
+      tags:
+        - build 
+
+
