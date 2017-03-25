@@ -6,12 +6,18 @@
       args:
         chdir: "../"
       tags:
-        - build 
+        - build
+    - name: find plugins
+      file:
+        paths: "../"
+        pattern: "grails-cas-rest-client-*.zip"
+      register: plugins
+      tags:
+        - build
     - name: Add Grails cas-rest-client to local repo
-      shell: "grails install-plugin {{ item }}"
+      shell: "grails install-plugin {{ item.path | basename }}"
       args:
         chdir: "../"
-      with_fileglob:
-        - "./grails-cas-rest-client-*.zip"
+      with_items: "{{ plugins.files }}"  
       tags:
         - build
