@@ -10,7 +10,7 @@
     - name: find plugins
       file:
         paths: "../"
-        pattern: "grails-cas-rest-client-*.zip"
+        patterns: "grails-cas-rest-client-*.zip"
       register: plugins
       tags:
         - build
