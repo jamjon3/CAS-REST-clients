@@ -12,6 +12,6 @@
       args:
         chdir: "../"
       with_fileglob:
-        - "grails-cas-rest-client-*.zip"
+        - "./grails-cas-rest-client-*.zip"
       tags:
         - build
