@@ -7,13 +7,13 @@
         chdir: "../"
       tags:
         - build
-    - name: find plugins
-      file:
+    - name: Find the plugin
+      find:
         paths: "../"
         patterns: "grails-cas-rest-client-*.zip"
       register: plugins
       tags:
-        - build
+        - build 
     - name: Add Grails cas-rest-client to local repo
       shell: "grails install-plugin {{ item.path | basename }}"
       args:
