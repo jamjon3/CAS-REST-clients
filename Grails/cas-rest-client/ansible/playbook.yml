@@ -1,24 +1,17 @@
 ---
 - hosts: all
   tasks:
-    - name:
-      find:
-        paths: "."
-        patterns: "grails-cas-rest-client-*.zip"
-      args:
-        chdir: "../"
-      register: plugins
-      tags:
-        - build 
     - name: Build Grails cas-rest-client
-      shell: "{{ item }}"
-      become: no
+      shell: "grails package-plugin"
       args:
         chdir: "../"
-      with_items:
-        - "grails package-plugin"
-        - "grails install-plugin {{ plugins.files[0].path }}"
       tags:
         - build 
-
-
+    - name: Add Grails cas-rest-client to local repo
+      shell: "grails install-plugin {{ item }}"
+      args:
+        chdir: "../"
+      with_fileglob:
+        - "grails-cas-rest-client-*.zip"
+      tags:
+        - build
